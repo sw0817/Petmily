@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petmily.curation.mapper.MemberMapper">
+	<select id="email_certified_check" parameterType="com.petmily.curation.dto.MemberDto" resultType="com.petmily.curation.dto.MemberDto">
+		select user_email from member where user_email = #{user_email} and certified=#{certified}
+	</select> 
+	
+	<update id="email_certified_update" parameterType="com.petmily.curation.dto.MemberDto">
+		update member set certified = 'Y' where user_email = #{user_email}
+	</update>
+</mapper>

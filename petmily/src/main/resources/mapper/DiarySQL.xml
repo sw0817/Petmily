@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.DiaryMapper">
+	<insert id="insertDiary"
+		parameterType="com.petmily.curation.dto.DiaryDto"
+		useGeneratedKeys="true" keyProperty="diary_id">
+		insert into diary(
+		user_id,diary_title,
+		diary_year,diary_month,diary_day,diary_content,diary_feeling,diary_weather,diary_activity
+		) values (
+		#{user_id},
+		#{diary_title},#{diary_year},#{diary_month},#{diary_day},#{diary_content},#{diary_feeling},#{diary_weather},#{diary_activity}
+		)
+	</insert>
+
+	<select id="selectDiaryAll"
+		resultType="com.petmily.curation.dto.DiaryDto">
+		select diary_id, user_id,diary_title,
+		diary_year,diary_month,diary_day,diary_content,diary_feeling,diary_weather,diary_activity
+		from diary
+		where user_id=#{user_id}
+		order by diary_year asc, diary_month
+		asc, diary_day asc;
+	</select>
+
+
+	<select id="selectDiaryByDay"
+		resultType="com.petmily.curation.dto.DiaryDto">
+		select diary_id, user_id,
+		diary_title,diary_year,diary_month,diary_day,diary_content,diary_feeling,diary_weather,diary_activity
+		from diary
+		where user_id=#{user_id} and diary_year=#{diary_year} and
+		diary_month=#{diary_month} and diary_day=#{diary_day}
+	</select>
+
+	<update id="updateDiary"
+		parameterType="com.petmily.curation.dto.DiaryDto">
+		update diary
+		set
+		diary_title=#{diary_title},diary_year=#{diary_year},diary_month=#{diary_month},diary_day=#{diary_day},diary_content
+		= #{diary_content},
+		diary_feeling
+		=#{diary_feeling},diary_weather=#{diary_weather},diary_activity=#{diary_activity}
+		where diary_id = #{diary_id}
+	</update>
+
+	<delete id="deleteDiary" parameterType="Integer">
+		delete
+		from diary
+		where
+		diary_id = #{diary_id}
+	</delete>
+
+	<!-- 펫 태그 등록 -->
+	<insert id="registerPetTags"
+		parameterType="com.petmily.curation.dto.DiaryPetTagDto">
+		insert into diarypettag (user_id,diary_id, pet_id)
+		values(#{user_id},#{diary_id}, #{pet_id})
+	</insert>
+
+	<delete id="deletePetTags" parameterType="Integer">
+		delete
+		from diarypettag
+		where diary_id=#{diary_id}
+	</delete>
+	
+		<delete id="deletePetTagsByPet" parameterType="Integer">
+		delete
+		from diarypettag
+		where pet_id=#{pet_id}
+	</delete>
+	
+
+	<!-- 펫 태그 조회 -->
+	<select id="selectAllPetTags"
+		resultType="com.petmily.curation.dto.DiaryPetTagDto">
+		select *
+		from diarypettag
+
+	</select>
+
+	<select id="selectPet"
+		resultType="com.petmily.curation.dto.DiaryPetTagDto">
+		select *
+		from diarypettag
+		where diary_id=#{diary_id}
+	</select>
+	
+	<!-- 탈퇴회원관련 다이어리 삭제 -->
+	<delete id="deleteDiaryByUserId" parameterType="Integer">
+		delete
+		from diary
+		where
+		user_id = #{user_id}
+	</delete>
+
+
+
+</mapper>

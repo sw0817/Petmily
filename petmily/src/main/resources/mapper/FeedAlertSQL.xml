@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.FeedAlertMapper">
+	<insert id="createTagAlert"
+	useGeneratedKeys="true" keyProperty="alert_id">
+		insert into feedalert
+		(alert_to,alert_kind,from_id,from_nickname, alert_content,feed_id,feed_content)
+		values (#{alert_to},1,#{from_id},#{from_nickname},#{alert_content}
+		,#{feed_id},#{feed_content})
+	</insert>
+	
+	<insert id="createCommentAlert"
+	useGeneratedKeys="true" keyProperty="alert_id">
+		insert into feedalert
+		(alert_to,alert_kind,from_id,from_nickname, feed_id,alert_content,memo_id,comment)
+		values (#{alert_to},2,#{from_id},#{from_nickname},#{feed_id},#{alert_content},
+		#{memo_id},#{comment})
+	</insert>
+	
+	<select id="alertList" resultType="com.petmily.curation.dto.FeedAlertDto">
+		select *
+		from feedalert
+		where alert_to = #{alert_to}
+	</select>
+
+<!-- 하나하나 지우기 -->
+	<delete id="deleteAlert" parameterType="int">
+		delete 
+		from feedalert 
+		where alert_id = #{alert_id}
+	</delete>
+	
+	<!-- 전체 지우기! -->
+	<delete id="deleteAllAlerts" parameterType="int">
+		delete 
+		from feedalert 
+		where alert_to = #{alert_to}
+	</delete>
+	
+	<!-- 한 게시글에 대한 댓글 알람 지우기! -->
+	<delete id="clickFeedAlert" parameterType="int">
+		delete 
+		from feedalert 
+		where alert_to = #{alert_to} and feed_id=#{feed_id}
+	</delete>
+	
+	<!-- 이미 해당 게시글과 관련된 알람이 들어가있는지 확인 후 update 및 delete... -->
+	<select id="checkExisted" resultType="int">
+		select count(*)
+		from feedalert
+		where feed_id=#{feed_id} and alert_to=#{alert_to} and from_id=#{from_id}
+	</select>
+	
+<!-- 이미 해당 게시글과 관련된 알람이 들어가있다면 변경된 글 내용만 알람내용을 바꿔줌 -->
+	<update id="updateTagAlert">
+		update feedalert set feed_content=#{feed_content}
+		where feed_id=#{feed_id} and alert_to=#{alert_to}
+	</update>
+	
+	<!-- 탈퇴회원 알람정보 지우기 -->
+	<delete id="deleteAlertUserId" parameterType="int">
+		delete 
+		from feedalert 
+		where alert_to = #{user_id} or from_id = #{user_id} 
+	</delete>
+	
+</mapper>

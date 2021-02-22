@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.FileMapper">
+   <!-- 파일 등록; Create -->
+   <insert id="insertFile" parameterType="com.petmily.curation.dto.FileDto">
+      insert into file(
+         user_id, feed_id, file_type, file_name, filter_name, file_oriname, file_url
+      ) values (
+         #{user_id}, #{feed_id}, #{file_type}, #{file_name}, #{filter_name}, #{file_oriname}, #{file_url}
+      )
+   </insert>
+   
+   <!-- 모든 파일 조회 -->
+   <select id="selectAllFile" resultType="com.petmily.curation.dto.FileDto">
+      select f_id, user_id, feed_id, file_type, filter_name, file_name, file_oriname, file_url
+      from file
+   </select>
+   
+   <!-- user_id로 파일 조회 -->
+   <select id="selectFile" resultType="com.petmily.curation.dto.FileDto">
+      select f_id, user_id, feed_id, file_type, filter_name, file_name, file_oriname, file_url
+      from file
+      where user_id = #{id}
+   </select>
+   
+      <!-- feed_id로 파일 조회 -->
+   <select id="selectFileByFeed" resultType="com.petmily.curation.dto.FileDto">
+      select f_id, user_id, feed_id, file_type, filter_name, file_name, file_oriname, file_url
+      from file
+      where feed_id = #{feed_id}
+   </select>
+   
+   <delete id="deleteFile" parameterType="int">
+      delete 
+      from file
+      where feed_id = #{id}
+   </delete>
+   
+      
+   <update id="updateFile" parameterType="com.petmily.curation.dto.FileDto">
+      update file
+         set user_id = #{user_id},
+               feed_id = #{feed_id},
+               file_type = #{file_type},
+               file_name = #{file_name},
+               filter_name = #{filter_name},
+               file_oriname = #{file_oriname},
+               file_url = #{file_url}
+       where feed_id = #{feed_id}
+   </update>
+   
+   <delete id="deleteAllFileUserId" parameterType="int">
+      delete 
+      from file
+      where user_id = #{user_id}
+   </delete>
+</mapper>

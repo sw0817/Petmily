@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.LikeMapper">
+
+   <!-- 피드 좋아요 개수 리턴 -->
+   <select id="countLike" parameterType="Integer" resultType="Integer">
+		select count(like_id)
+		from likely
+		where feed_id = #{feed_id}
+   </select>
+  
+   <select id="selectLike" parameterType="Integer" resultType="com.petmily.curation.dto.LikeDto">
+  		select *
+  		from likely
+  		where feed_id=#{feed_id}
+   </select>
+  
+   <select id="checkLike" parameterType="Integer" resultType="Integer">
+  		select count(like_id)
+  		from likely
+  		where user_id=#{user_id} and feed_id=#{feed_id}
+   </select>
+  
+   <!-- 좋아요 삽입 -->
+   <insert id="insertLike" parameterType="com.petmily.curation.dto.LikeDto">
+  		insert into likely(feed_id, user_id) values(#{feed_id}, #{user_id})
+   </insert>
+  
+   <!--  좋아요 삭제 -->
+   <delete id="deleteLike" parameterType="com.petmily.curation.dto.LikeDto">
+  		delete from likely
+  		where feed_id = #{feed_id} and user_id = #{user_id}
+   </delete>
+  
+    <!--  한 피드의 좋아요 삭제 -->
+   <delete id="deleteLikeOne" parameterType="com.petmily.curation.dto.LikeDto">
+  		delete from likely
+  		where feed_id = #{feed_id}
+   </delete>
+
+  
+   <select id="listLike" parameterType="Integer" resultType="com.petmily.curation.dto.LikeListDto">
+		select feed_id, l.user_id , m.user_nickname
+		from likely as l join member as m
+		where l.user_id=m.user_id
+		order by feed_id asc
+   </select>
+   
+   <!--  탈퇴회원 좋아요 삭제 -->
+   <delete id="deleteLikeByUserId" parameterType="Integer">
+  		delete from likely
+  		where user_id = #{user_id}
+   </delete>
+   
+</mapper>

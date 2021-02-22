@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.LoginMapper">
+
+  <select id="login" resultType="com.petmily.curation.dto.MemberDto">
+		select *
+		from member
+		where user_email = #{user_email} and user_password = #{user_password}
+  </select>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.RecentChatMapper">
+	
+	<select id="isExistRoomId" resultType="int">
+		select count(*)
+		from recentchat
+		where room_id=#{room_id}
+	</select>
+	
+	<insert id="createColumn">
+		insert into recentchat
+		(room_id,send_id,send_nickname,receive_id,receive_nickname,body,chat_id,isread)
+		values (#{room_id},#{send_id},#{send_nickname},#{receive_id},#{receive_nickname},#{body},#{chat_id},false)
+	</insert>
+	
+	<update id="updateColumn"> 
+		update recentchat set send_id=#{send_id}, send_nickname=#{send_nickname},
+		receive_id=#{receive_id}, receive_nickname=#{receive_nickname},
+		body=#{body},chat_id=#{chat_id},isread=#{isread},create_date=now()
+		where room_id=#{room_id} 
+	</update>
+	
+	<update id="updateRecentChatId">
+		update recentchat set chat_id=(
+			select chat_id
+		    from chat
+		    where send_id=#{send_id} and receive_id=#{receive_id}
+		    order by chat_id desc
+			limit 1
+		    )
+		where send_id=#{send_id} and receive_id=#{receive_id}
+	</update>
+	
+	<!-- select 할때 항상 create_date desc?순으로! -->
+	<select id="getMyRecents" resultType="com.petmily.curation.dto.RecentChatDto">
+		select recentchat_id,room_id, send_id, send_nickname,receive_id,receive_nickname, body, chat_id,isread,create_date
+		from recentchat 
+		where room_id in (
+				select room_id
+				from room
+				where my_id=#{my_id} or your_id=#{my_id}
+				)
+		order by create_date desc
+	</select>
+	
+	<update id="recentIsreadTrue">
+		update recentchat set isread=true
+		where recentchat_id = #{recentchat_id}
+	</update>
+	
+	<delete id="deleteRecentChatByUserId" parameterType="Integer">
+		delete from recentchat
+		where send_id = #{user_id} or receive_id = #{user_id}
+	</delete>
+	
+
+</mapper>

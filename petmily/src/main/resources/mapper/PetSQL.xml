@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.PetMapper">
+   <insert id="insertPet" parameterType="com.petmily.curation.dto.PetDto">
+      insert into pet(
+         user_id, pet_name, pet_kind, pet_gender, pet_age, pet_content, file_name, file_oriname, file_url
+      ) values (
+         #{user_id}, #{pet_name}, #{pet_kind}, #{pet_gender}, #{pet_age}, #{pet_content},#{file_name},#{file_oriname},#{file_url}
+      )
+   </insert>
+   
+   <!-- 펫 조회: user_id로 찾기. 하지만, user_id가 없으니 pet_id로 찾기로 -->
+   <select id="selectPet" resultType="com.petmily.curation.dto.PetDto">
+      select pet_id, user_id, pet_name,pet_kind, pet_gender, pet_age, pet_content, create_date, file_name, file_oriname, file_url
+      from pet
+      where user_id = #{no}
+   </select>
+      <select id="selectPetByPetId" resultType="com.petmily.curation.dto.PetDto">
+      select pet_id, user_id, pet_name,pet_kind, pet_gender, pet_age, pet_content, create_date, file_name, file_oriname, file_url
+      from pet
+      where pet_id = #{pet_id}
+   </select>
+   
+    <!-- 펫 조회: user_id로 찾기. 하지만, user_id가 없으니 pet_id로 찾기로 -->
+   <select id="selectAllPet" resultType="com.petmily.curation.dto.PetDto">
+      select pet_id, user_id, pet_name, pet_gender, pet_age, pet_content, create_date, file_name, file_oriname, file_url
+      from pet
+   </select>
+   
+   <!-- 펫 수정 -->
+   <update id="updatePet" parameterType="com.petmily.curation.dto.PetDto">
+      update pet 
+         set pet_name = #{pet_name},
+         	pet_kind=#{pet_kind},
+         	pet_gender=#{pet_gender}, 
+               pet_age = #{pet_age},
+               pet_content = #{pet_content},
+               file_name = #{file_name},
+               file_oriname = #{file_oriname},
+               file_url = #{file_url}
+       where pet_id = #{pet_id}
+   </update>
+
+   <!-- 펫 삭제 -->
+   <delete id="deletePet" parameterType="Integer">
+      delete 
+      from pet 
+      where pet_id = #{pet_id}
+   </delete>
+   
+   	<!-- 펫 태그 수정 -->
+	<update id="updatePetTags"
+		parameterType="com.petmily.curation.dto.PetTagDto">
+		update pettag
+		set pet_name=#{pet_name}
+		where pet_id = #{pet_id}
+	</update>
+	
+	
+ 	<!-- 탈퇴회원 펫 태그 삭제-->
+   	<delete id="deleteDiaryPettag" parameterType="Integer">
+      delete 
+      from diarypettag 
+      where user_id = #{user_id}
+   	</delete>
+   	
+   	
+	<!-- 탈퇴회원 펫 삭제-->
+   	<delete id="deletePetByUserId" parameterType="Integer">
+      delete 
+      from pet 
+      where user_id = #{user_id}
+   	</delete>
+</mapper>

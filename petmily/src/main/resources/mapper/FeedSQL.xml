@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.FeedMapper">
+	<insert id="insertFeed"
+		parameterType="com.petmily.curation.dto.FeedDto"
+		useGeneratedKeys="true" keyProperty="feed_id">
+		insert into feed(
+		user_id, feed_content
+		) values (
+		#{user_id}, #{feed_content}
+		)
+	</insert>
+
+	<select id="selectFeed"
+		resultType="com.petmily.curation.dto.FeedDto">
+		select feed_id, user_id, feed_date, feed_content
+		from feed
+		where user_id = #{id}
+	</select>
+
+	<select id="selectFeedOne"
+		resultType="com.petmily.curation.dto.FeedDto">
+		select feed_id, user_id, feed_date, feed_content
+		from feed
+		where feed_id = #{feed_id}
+	</select>
+
+
+	<select id="selectFeedAll"
+		resultType="com.petmily.curation.dto.FeedDto">
+		select feed_id, user_id, feed_date, feed_content
+		from feed
+	</select>
+
+
+	<update id="updateFeed"
+		parameterType="com.petmily.curation.dto.FeedDto">
+		update feed
+		set feed_content = #{feed_content}
+		where feed_id = #{feed_id}
+	</update>
+
+	<delete id="deleteFeed" parameterType="Integer">
+		delete
+		from feed
+		where feed_id = #{id}
+	</delete>
+
+	<!-- 펫 태그 등록 -->
+	<insert id="registerPetTags"
+		parameterType="com.petmily.curation.dto.PetTagDto">
+		insert into pettag (feed_id, pet_id, pet_name) values(#{feed_id}, #{pet_id},
+		#{pet_name})
+	</insert>
+
+	<!-- 펫 태그 조회 -->
+	<select id="selectAllPetTags"
+		resultType="com.petmily.curation.dto.PetTagDto">
+		select *
+		from pettag
+	</select>
+
+	<!-- 펫 태그 조회 -->
+	<select id="selectPetTag"
+		resultType="com.petmily.curation.dto.PetTagDto">
+		select *
+		from pettag
+		where feed_id=#{feed_id}
+	</select>
+
+	<!-- 펫 태그 수정 -->
+	<update id="updatePetTags"
+		parameterType="com.petmily.curation.dto.PetTagDto">
+		update pettag
+		set pet_id = #{pet_id},pet_name=#{pet_name}
+		where feed_id = #{feed_id}
+	</update>
+
+	<!-- 펫 태그 삭제 (피드의 모든 펫태그) -->
+	<delete id="deletePetTags" parameterType="Integer">
+		delete
+		from pettag
+		where feed_id = #{id}
+	</delete>
+	
+		<!-- 펫 태그 삭제 (피드의 모든 펫태그) -->
+	<delete id="deletePetTagsByPet" parameterType="Integer">
+		delete
+		from pettag
+		where pet_id = #{pet_id}
+	</delete>
+
+	<!-- 해시 태그 등록 -->
+	<insert id="registerTags"
+		parameterType="com.petmily.curation.dto.TagDto">
+		insert into tag (feed_id, tag_content) values(#{feed_id}, #{tag_content})
+	</insert>
+
+	<!-- 해시 태그 조회 -->
+	<select id="selectAllTags"
+		resultType="com.petmily.curation.dto.TagDto">
+		select *
+		from tag
+	</select>
+	
+	<!-- 해시 태그 조회 -->
+	<select id="selectTag"
+		resultType="com.petmily.curation.dto.TagDto">
+		select *
+		from tag
+		where feed_id=#{feed_id}
+	</select>
+	
+	<select id="allCount" resultType="com.petmily.curation.dto.TagCountDto">
+		select distinct tag_content, count(*) as count
+		from tag
+		group by tag_content
+		order by tag_content;
+
+	</select>
+
+	<!-- 해시 태그 수정 -->
+	<update id="updateTags"
+		parameterType="com.petmily.curation.dto.TagDto">
+		update tag
+		set tag_content=#{tag_content}
+		where feed_id =
+		#{feed_id}
+	</update>
+
+	<!-- 해시 태그 삭제 -->
+	<delete id="deleteTags" parameterType="Integer">
+		delete
+		from tag
+		where feed_id = #{feed_id} 
+	</delete>
+
+	<!-- 친구 태그 등록 -->
+	<insert id="registerFriendTags"
+		parameterType="com.petmily.curation.dto.FriendTagDto">
+		insert into friendtag (feed_id, friend_id,friend_nickname)
+		values(#{feed_id}, #{friend_id},#{friend_nickname})
+	</insert>
+
+	<!-- 친구 태그 조회 -->
+	<select id="selectFriendTag"
+		resultType="com.petmily.curation.dto.FriendTagDto">
+		select *
+		from friendtag
+		where feed_id=#{feed_id}
+	</select>
+	<!-- 전체 친구 태그 조회 -->
+	<select id="selectAllFriendTag"
+		resultType="com.petmily.curation.dto.FriendTagDto">
+		select *
+		from friendtag
+	</select>
+
+	<!-- 친구 태그 수정 -->
+	<update id="updateFriendTags"
+		parameterType="com.petmily.curation.dto.FriendTagDto">
+		update friendtag
+		set
+		friend_id=#{friend_id},friend_nickname=#{friend_nickname}
+		where feed_id
+		= #{feed_id}
+	</update>
+
+	<!-- 친구 태그 삭제 -->
+	<delete id="deleteFriendTags" parameterType="Integer">
+		delete
+		from friendtag
+		where feed_id = #{id}
+	</delete>
+	
+	
+	<!-- 탈퇴회원관련 피드 삭제 -->
+	<delete id="deleteAllFeedUserId" parameterType="Integer">
+		delete
+		from feed
+		where user_id = #{user_id} 
+	</delete>
+	
+	<!-- 탈퇴회원 친구 태그 삭제 -->
+	<delete id="deleteAllFriend" parameterType="Integer">
+		delete
+		from friendtag
+		where friend_id = #{user_id}
+	</delete>
+	
+
+	<!-- 탈퇴회원 펫태그 삭제 -->
+	<delete id="deleteAllPettags">
+		delete
+		from pettag p
+		where p.feed_id not in (
+			select f.feed_id
+    		from feed f
+		)
+	</delete>
+	
+	<!-- 탈퇴회원 태그 삭제 -->
+	<delete id="deleteAlltags">
+		delete
+		from tag t
+		where t.feed_id not in (
+			select f.feed_id
+    		from feed f
+		)
+	</delete>
+	
+
+</mapper>

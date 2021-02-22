@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.RoomMapper">
+	<insert id="createRoom">
+		insert into room
+		(room_id,my_id,your_id)
+		values (#{room_id},#{my_id},#{your_id})
+	</insert>
+	
+	
+	<select id="isRoom" resultType="int">
+		select count(*)
+		from room
+		where (my_id=#{my_id} and your_id=#{your_id}) 
+		OR (my_id=#{your_id} and your_id=#{my_id})
+	</select>
+
+
+	<select id="sendRoomId" resultType="com.petmily.curation.dto.RoomDto">
+		select room_id
+		from room
+		where (my_id=#{my_id} and your_id=#{your_id}) 
+		OR (my_id=#{your_id} and your_id=#{my_id})
+	</select>
+	
+	<!-- 탈퇴회원 room 삭제-->
+   	<delete id="deleteRoom" parameterType="Integer">
+      delete 
+      from room 
+      where my_id = #{user_id} or your_id = #{user_id}
+   	</delete>
+
+</mapper>

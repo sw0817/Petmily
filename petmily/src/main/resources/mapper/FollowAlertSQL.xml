@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petmily.curation.mapper.FollowAlertMapper">
+	<insert id="createAlert">
+		insert into followalert
+		(alert_to,from_id,from_nickname, alert_content)
+		values (#{alert_to},#{from_id},#{from_nickname},#{alert_content})
+	</insert>
+
+	<select id="alertList" resultType="com.petmily.curation.dto.FollowAlertDto">
+		select *
+		from followalert
+		where alert_to=#{alert_to}
+	</select>
+
+<!-- 하나하나 지우기 -->
+	<delete id="deleteAlert" parameterType="int">
+		delete 
+		from followalert 
+		where alert_id = #{alert_id}
+	</delete>
+	
+	<!-- 전체 지우기! -->
+	<delete id="deleteAllAlerts" parameterType="int">
+		delete 
+		from followalert 
+		where alert_to = #{alert_to}
+	</delete>
+	
+	<!-- 이미 해당 팔로우 관련된 알람이 들어가있는지 확인 후 update 및 delete... -->
+	<select id="checkExisted" resultType="int">
+		select count(*)
+		from followalert
+		where from_id=#{from_id} and alert_to=#{alert_to}
+	</select>
+	
+	<!-- 탈퇴회원 알람정보 지우기 -->
+	<delete id="deleteAlertUserId" parameterType="int">
+		delete 
+		from followalert 
+		where alert_to = #{user_id} or from_id = #{user_id} 
+	</delete>
+
+</mapper>

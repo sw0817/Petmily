@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 예시로 넣어둠!!!!!!!!!! 중요하지 않음~! -->
+
+<mapper namespace="com.petmily.curation.mapper.MemberMapper">
+	
+	<insert id="signup">
+		insert into member
+		(user_email,user_nickname,user_content,user_password, user_name, user_birth, user_gender,certified)
+		values (#{user_email},#{user_nickname},#{user_content},#{user_password},#{user_name},#{user_birth},#{user_gender},#{certified})
+	</insert>
+	
+		
+	<!-- 회원 정보 수정 -->
+	<update id="userUpdate"> 
+		update member set user_nickname=#{user_nickname}, user_name=#{user_name},user_content=#{user_content},user_birth=#{user_birth},user_gender=#{user_gender}
+		where user_email=#{user_email} 
+	</update>
+ 	
+ 	<delete id="userDelete">
+ 		delete
+ 		from member
+ 		where user_email=#{user_email}
+ 	</delete>
+
+	<select id="getAllMembers" resultType="com.petmily.curation.dto.MemberDto">
+		select * from member
+	</select>
+	
+	<!-- 비밀번호 찾기로 비밀번호 갱신 -->
+	<update id="findPassword"> 
+		update member set user_password=#{user_password}
+		where user_email=#{user_email} 
+	</update>
+	
+		<!-- 아이디 찾기 -->
+	<select id="findId" resultType="com.petmily.curation.dto.MemberDto">
+		select * from member
+		where user_name = #{user_name} and user_birth=#{user_birth}
+	</select>
+
+
+	<!-- 닉네임 중복검사 -->
+	<select id="changeNickname" resultType="int">
+		select count(user_nickname) from member
+		where user_nickname = #{user_nickname}
+	</select>
+	
+	<!-- 회원정보 조회 -->
+	<select id="getSingleMember" resultType="com.petmily.curation.dto.MemberDto">
+		select user_id,user_email, user_nickname, user_content,user_name,user_birth,user_gender
+		  from member
+		 where user_id=#{user_id}
+	</select>
+</mapper>
