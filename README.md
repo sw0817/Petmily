@@ -1,6 +1,6 @@
 # Welcome to PETMILY
 
-![](D:\상훈\개발\Petmily\images\README\logologo.png)
+![](\images\README\logologo.png)
 
 > 펫밀리 (PETMILY) 웹사이트
 
