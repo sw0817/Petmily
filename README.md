@@ -2,56 +2,6 @@
 
 ![](images/README/logologo.png)
 
-> 펫밀리 (PETMILY) 웹사이트
-
-🏠 [Homepage](https://i4a403.p.ssafy.io/)
-
-> 펫밀리 시연영상
-
-🏠 [Petmily_Video](https://www.youtube.com/watch?v=b6qmTilhApQ)
-
-
-
-## 👨‍👩‍👦 Team members
-
-### 신상훈(Shin Sanghun)
-
-> [@github](https://github.com/sw0817)
-
-- Team Leader
-- Frontend
-- Presentation
-
-### 신윤식(Shin Yoonsik)
-
-> [@github](https://github.com/)
-
-- Backend
-- Server
-
-### 이도건(Lee Dogun)
-
-> [@github](https://github.com/)
-
-- Frontend
-- UCC
-
-### 박다윤(Park Dayoon)
-
-> [@github](https://github.com/)
-
-- Backend
-- Database
-
-### 박서영(Park Suyoung)
-
-> [@github](https://github.com/)
-
-- Backend
-- Frontend
-
-
-
 ## Project Intro
 
 - 진행 기간 : 2021.01.11 ~ 2021.02.19
@@ -342,6 +292,45 @@
 
 > 이 프로젝트는 삼성청년 SW 아카데미 4기 웹 프로젝트 부문 서울 지역 우수프로젝트로 선정되었습니다.
 
+
+
+## 👨‍👩‍👦 Team members
+
+### 신상훈(Shin Sanghun)
+
+> [@github](https://github.com/sw0817)
+
+- Team Leader
+- Frontend
+- Presentation
+
+### 신윤식(Shin Yoonsik)
+
+> [@github](https://github.com/)
+
+- Backend
+- Server
+
+### 이도건(Lee Dogun)
+
+> [@github](https://github.com/)
+
+- Frontend
+- UCC
+
+### 박다윤(Park Dayoon)
+
+> [@github](https://github.com/)
+
+- Backend
+- Database
+
+### 박서영(Park Suyoung)
+
+> [@github](https://github.com/)
+
+- Backend
+- Frontend
 
 
 ## 배포
