@@ -43,7 +43,7 @@
         <li>Spring Security</li>
         <li>MySQL</li>
         <li>NGINX</li>
-        <li>E2C</li>
+        <li>EC2</li>
     </ul>
 </details>
 
